@@ -1,0 +1,10 @@
+# video-lan-checker
+* video-lan-checker
+** series of scripts to aid the security camera installer
+ - working:
+   - plotter.py
+     - plots the ip addresses found on the network and shows each of the traffic types being generated.
+     - checks for and plots all encrypted video traffic
+ - not-working:
+   - plot_traff.py
+   - test_scapy.py
