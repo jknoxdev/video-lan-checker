@@ -2,8 +2,12 @@
 * video-lan-checker
 ** series of scripts to aid the security camera installer
  - working:
-   - plotter.py
-     - plots the ip addresses found on the network and shows each of the traffic types being generated.
+   - [[./src/plotter.py][harry_plotter]]
+     - (make sure to run as root!) plots the ip addresses found on the network and shows each of the traffic types being generated.
+       #+begin_src sh :results output raw
+       python ./src/plotter.py
+       #+end_src
+       [[img/hp_scr001.png]]
      - checks for and plots all encrypted video traffic
  - not-working:
    - plot_traff.py
