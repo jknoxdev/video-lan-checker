@@ -1,7 +1,7 @@
 # video-lan-checker
 * video-lan-checker
 ** series of scripts to aid the security camera installer
- - working:
+ - running:
    - [[./src/plotter.py][harry_plotter]]
      - (make sure to run as root!) plots the ip addresses found on the network and shows each of the traffic types being generated.
        #+begin_src sh :results output raw
@@ -9,6 +9,19 @@
        #+end_src
        [[img/hp_scr001.png]]
      - checks for and plots all encrypted video traffic
- - not-working:
+   - [[./src/arp_scan.py][arp_scan]]
+     - continuosly monitors network via wlan1 for any new arp traffic (usefull if you're plugging in cameras and want to see if they come up)
+     - v 0.01 - built from example code, future versions should include:
+       - OEM name tracking
+       - previously seen list
+       - menu
+         - option to select from most common networks, 192.168.1.0/24, etc.
+         - options to save to csv
+       - timestamp for "last seen"
+
+ - not-running:
    - plot_traff.py
    - test_scapy.py
+   - running_man.py
+     - rogue DHCP server checker.. shows packts for BS networks being broadcast on L2
+       
