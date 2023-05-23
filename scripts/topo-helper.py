@@ -68,6 +68,6 @@ for item in expanded_list:
 
 
     # Write to file
-with open('topology_list.txt', 'w') as file:
+with open('topo-helper-one_list.txt', 'w') as file:
     for item in expanded_list:
         file.write(item + '\n')
