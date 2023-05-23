@@ -4,7 +4,7 @@ def expand_list(items, prefix=''):
         if isinstance(item, dict):
             item_key = list(item.keys())[0]
             item_value = item[item_key]
-            expanded_list.extend(expand_list(item_value, prefix=item_key+'-'))
+            expanded_list.extend(expand_list(item_value, prefix=prefix + item_key + '-'))
         else:
             expanded_list.append(prefix + item)
     return expanded_list
@@ -63,11 +63,11 @@ original_list = [
 ]
 
 expanded_list = expand_list(original_list)
-for item in expanded_list:
-    print(item)
 
-
-    # Write to file
-with open('topology_list.txt', 'w') as file:
+# Print to screen and write to file
+with open('expanded_list.txt', 'w') as file:
     for item in expanded_list:
         file.write(item + '\n')
+        print(item)
+
+print("The topology list has been written to 'topology_list.txt' file.")

@@ -65,3 +65,9 @@ original_list = [
 expanded_list = expand_list(original_list)
 for item in expanded_list:
     print(item)
+
+
+    # Write to file
+with open('topology_list.txt', 'w') as file:
+    for item in expanded_list:
+        file.write(item + '\n')
