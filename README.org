@@ -4,7 +4,7 @@
 
  - running:
 
-   - [[./scanner.py][scanner]] - scans the network and draws a diagram
+   - [[./scanner.py][scanner]] - scans the network and draws a cluster diagram
      [[./img/scanner.png]]
      #+begin_src sh :results output raw
      sudo python scanner.py
