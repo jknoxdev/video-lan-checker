@@ -48,7 +48,7 @@ def scan_network_topology(ip_range):
 
     # Scan IP range and add devices to the graph
     print("Scanning network...")
-    with ThreadPoolExecutor() as executor:
+    with ThreadPoolExecutor(max_workers=32) as executor:
         check_partial = partial(check_device, G=G)
         futures = [executor.submit(check_partial, ip_range + '.' + str(i)) for i in range(1, 256)]
 
