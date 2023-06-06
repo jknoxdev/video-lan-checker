@@ -1,7 +1,15 @@
 # video-lan-checker
 * video-lan-checker
 ** series of scripts to aid the security camera installer
+
  - running:
+
+   - [[./scanner.py][scanner]] - scans the network and draws a diagram
+     [[./img/scanner.png]]
+     ```
+     sudo python scanner.py
+     ```
+     - v0.01 - gets root, asks user for /24 ip range, draws the diagram, runs in parallel, does dns resolve for ips found, drops to layer 2 for unknowns
    - [[./src/plotter.py][harry_plotter]]
      - (make sure to run as root!) plots the ip addresses found on the network and shows each of the traffic types being generated.
        #+begin_src sh :results output raw
