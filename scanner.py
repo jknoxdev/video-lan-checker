@@ -4,6 +4,7 @@ from pythonping import ping
 from scapy.all import srp, Ether, ARP
 import socket
 import os
+import sys
 
 def resolve_dns(ip):
     try:
@@ -73,7 +74,7 @@ def scan_network_topology(ip_range):
     plt.show()
 
 if __name__ == '__main__':
-    ip_range = '192.168.0'  # Change this to your desired IP range
+    ip_range = input("Enter the IP range to scan (e.g., 192.168.0): ")
 
     # Request root permission if not already running as root
     if os.geteuid() != 0:
