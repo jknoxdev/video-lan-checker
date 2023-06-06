@@ -12,6 +12,13 @@ def resolve_dns(ip):
 
 def scan_network_topology(ip_range):
     G = nx.Graph()
+    plt.ion()  # Enable interactive mode
+
+    # Draw initial empty network diagram
+    pos = nx.spring_layout(G)
+    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=8)
+    plt.show()
+    plt.pause(0.001)
 
     # Scan IP range and add devices to the graph
     for i in range(1, 256):
@@ -21,6 +28,17 @@ def scan_network_topology(ip_range):
         response = ping(ip, count=1)
         if response.success():
             G.add_node(ip)
+
+            # Resolve DNS for the IP address
+            G.nodes[ip]['label'] = resolve_dns(ip)
+
+            # Update the network diagram
+            pos = nx.spring_layout(G)
+            nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=8)
+            nx.draw_networkx_labels(G, pos, labels=nx.get_node_attributes(G, 'label'), font_size=8)
+            plt.show()
+            plt.pause(0.001)
+
         else:
             # Send ARP request to get MAC address
             try:
@@ -28,17 +46,17 @@ def scan_network_topology(ip_range):
                 for _, rcv in ans:
                     mac = rcv[Ether].src
                     G.add_node(mac)
+
+                    # Update the network diagram
+                    pos = nx.spring_layout(G)
+                    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=8)
+                    plt.show()
+                    plt.pause(0.001)
             except Exception as e:
                 print(f"Error while sending ARP request to {ip}: {e}")
 
-    # Resolve DNS for each IP address
-    for node in G.nodes():
-        G.nodes[node]['label'] = resolve_dns(node)
-
-    # Draw the network diagram
-    pos = nx.spring_layout(G)
-    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=8)
-    nx.draw_networkx_labels(G, pos, labels=nx.get_node_attributes(G, 'label'), font_size=8)
+    # Final network diagram
+    plt.ioff()  # Disable interactive mode
     plt.show()
 
 if __name__ == '__main__':
