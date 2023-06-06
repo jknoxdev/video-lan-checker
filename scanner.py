@@ -23,15 +23,19 @@ def scan_network_topology(ip_range):
 
     # Request root permission for network checks
     os.seteuid(0)
+    print("Root permission obtained.")
 
     # Scan IP range and add devices to the graph
+    print("Scanning network...")
     for i in range(1, 256):
         ip = ip_range + '.' + str(i)
+        print(f"Checking device at {ip}...")
 
         # Check if device responds to ping
         response = ping(ip, count=1)
         if response.success():
             G.add_node(ip)
+            print(f"Device at {ip} is up.")
 
             # Resolve DNS for the IP address
             G.nodes[ip]['label'] = resolve_dns(ip)
@@ -50,6 +54,7 @@ def scan_network_topology(ip_range):
                 for _, rcv in ans:
                     mac = rcv[Ether].src
                     G.add_node(mac)
+                    print(f"Device with MAC address {mac} discovered.")
 
                     # Update the network diagram
                     pos = nx.spring_layout(G)
@@ -61,6 +66,7 @@ def scan_network_topology(ip_range):
 
     # Drop root permission
     os.seteuid(os.getuid())
+    print("Root permission dropped.")
 
     # Final network diagram
     plt.ioff()  # Disable interactive mode
