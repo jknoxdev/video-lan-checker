@@ -1,0 +1,366 @@
+% Created 2023-06-08 Thu 01:04
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Eric Schulte}
+\date{\today}
+\title{Plotting tables in Org-Mode using org-plot}
+\hypersetup{
+ pdfauthor={Eric Schulte},
+ pdftitle={Plotting tables in Org-Mode using org-plot},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 28.2 (Org mode 9.5.5)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section*{plot tests}
+\label{sec:orgcf1f824}
+\begin{center}
+\begin{tabular}{lrr}
+Sede & Max cites & H-index\\
+\hline
+Chile & 257.72 & 21.39\\
+Leeds & 165.77 & 19.68\\
+Sao Paolo & 71.00 & 11.50\\
+Stockholm & 134.19 & 14.33\\
+Morelia & 257.56 & 17.67\\
+\end{tabular}
+\end{center}
+
+\section*{radar}
+\label{sec:org0c8e8fc}
+\begin{center}
+\begin{tabular}{lrrrrrrr}
+Format & Fine-grained-control & Initial Effort & Syntax simplicity & Editor Support & Integrations & Ease-of-referencing & Versatility\\
+\hline
+Word & 2 & 4 & 4 & 2 & 3 & 2 & 2\\
+\LaTeX{} & 4 & 1 & 1 & 3 & 2 & 4 & 3\\
+Org Mode & 4 & 2 & 3.5 & 1 & 4 & 4 & 4\\
+Markdown & 1 & 3 & 3 & 4 & 3 & 3 & 1\\
+Markdown + Pandoc & 2.5 & 2.5 & 2.5 & 3 & 3 & 3 & 2\\
+\end{tabular}
+\end{center}
+
+\section*{org integration:}
+\label{sec:org2a93b99}
+
+\begin{table}[htbp]
+\label{tab:org0106d21}
+\centering
+\begin{tabular}{lrr}
+Ben & 9.2 & 9.9\\
+Tim & 6.7 & 7.7\\
+Tom & 7.5 & 6.7\\
+Dean & 8.0 & 7.0\\
+\end{tabular}
+\end{table}
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{./img/grades.png}
+\end{center}
+
+\section*{from the source}
+\label{sec:org9cdd883}
+
+\section*{Introduction}
+\label{sec:org3087270}
+
+This tutorial provides instructions for installing and using org-plot
+as well as a complete overview of the org-plot options and
+demonstrations of some of the many types of graphs which can be
+generated automatically from tables in your org-mode files using
+org-plot.
+
+While graphs will be included in the html version of this tutorial, if
+you would like to play along at home you can download the original org
+file here \href{https://git.sr.ht/\~bzg/worg/tree/master/item/org-tutorials/org-plot.org}{org-plot.org}.
+
+\section*{Getting Set up}
+\label{sec:org1a4c1e2}
+
+\subsection*{Requirements}
+\label{sec:org70e8fc2}
+
+Org-plot uses Gnuplot as well as the Emacs Gnuplot-mode to power its
+graphing.  To download and install these two requirements see the
+following
+
+
+\begin{description}
+\item[{Gnuplot}] \url{http://www.gnuplot.info/}
+\item[{Gnuplot-Mode}] \url{http://cars9.uchicago.edu/\~ravel/software/gnuplot-mode.html}
+\end{description}
+
+\subsection*{Installation}
+\label{sec:org25155ad}
+First we need to make sure that org-plot is on your system and
+available to emacs.  If you have a recent version of org-mode (version
+6.07 or later) then org-plot is already included.  Otherwise you can
+grab the latest org-plot.el from \href{http://github.com/eschulte/org-plot/tree/master}{github/eschulte/org-plot}.  Once you
+have org-plot loaded it may be useful to bind the main plotting
+command \texttt{org-plot/gnuplot} to a key chord, I use \texttt{C-M-g} for the
+mnemonic "graph" which can be done by executing the following elisp
+snippet.  This command will be the only org-plot command needed for
+nthe remainder of this tutorial.
+n
+\url{(local-set-key "\\M-\\C-g" 'org-plot/gnuplot)}
+
+Alright, we're now ready to start generating some graphs.
+
+\section*{Examples}
+\label{sec:orga1923bc}
+\subsection*{2d plots (lines and histograms)}
+\label{sec:org24bf5ce}
+
+First, to plot the following table use the key sequence defined above
+\texttt{C-M-g}.  This will call \texttt{org-plot/gnuplot} which finds and plots the
+nearest table.  The options specified in any \texttt{\#+PLOT} lines above the
+table are read and applied to the plot.  Notice that the second
+\texttt{\#+PLOT:} line specifies labels for each column, if this line is
+removed the labels will default to the column headers in the table,
+try removing this line and re-plotting.
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{../images/org-plot/example-1.png}
+\end{center}
+
+For a complete list of all of the options and their meanings see the
+\ref{orgf935ec6} section at the end of this file.  For more information on
+gnuplot options see \href{http://gnuplot.sourceforge.net/documentation.html}{the gnuplot documentation}, nearly all gnuplot
+options should be accessible through org-plot.
+
+\begin{table}[htbp]
+\label{tab:org7151f18}
+\centering
+\begin{tabular}{rrr}
+independent var & first dependent var & second dependent var\\
+\hline
+0.1 & 0.425 & 0.375\\
+0.2 & 0.3125 & 0.3375\\
+0.3 & 0.24999993 & 0.28333338\\
+0.4 & 0.275 & 0.28125\\
+0.5 & 0.26 & 0.27\\
+0.6 & 0.25833338 & 0.24999993\\
+0.7 & 0.24642845 & 0.23928553\\
+0.8 & 0.23125 & 0.2375\\
+0.9 & 0.23333323 & 0.2333332\\
+1 & 0.2225 & 0.22\\
+1.1 & 0.20909075 & 0.22272708\\
+1.2 & 0.19999998 & 0.21458333\\
+1.3 & 0.19615368 & 0.21730748\\
+1.4 & 0.18571433 & 0.21071435\\
+1.5 & 0.19000008 & 0.2150001\\
+1.6 & 0.1828125 & 0.2046875\\
+1.7 & 0.18088253 & 0.1985296\\
+1.8 & 0.17916675 & 0.18888898\\
+1.9 & 0.19342103 & 0.21315783\\
+2 & 0.19 & 0.21625\\
+2.1 & 0.18214268 & 0.20714265\\
+2.2 & 0.17727275 & 0.2022727\\
+2.3 & 0.1739131 & 0.1989131\\
+2.4 & 0.16770833 & 0.1916667\\
+2.5 & 0.164 & 0.188\\
+2.6 & 0.15769238 & 0.18076923\\
+2.7 & 0.1592591 & 0.1888887\\
+2.8 & 0.1598214 & 0.18928565\\
+2.9 & 0.15603453 & 0.1844828\\
+\end{tabular}
+\end{table}
+
+
+Org-plot can also produce histograms from 2d data, plot the following
+table.  Notice that the column specified as \texttt{ind} contains textual
+non-numeric data, when this is the case org-plot will use the data as
+labels for the x-axis using the gnuplot \texttt{xticlabels()} function.
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{../images/org-plot/example-2.png}
+\end{center}
+
+\begin{center}
+\begin{tabular}{lrr}
+Sede & Max cites & H-index\\
+\hline
+Chile & 257.72 & 21.39\\
+Leeds & 165.77 & 19.68\\
+São Paolo & 71.00 & 11.50\\
+Stockholm & 134.19 & 14.33\\
+Morelia & 257.56 & 17.67\\
+\end{tabular}
+\end{center}
+
+
+For another example of plotting histograms instead of lines, change
+the following options on the first table on this page, and replot
+\begin{enumerate}
+\item remove the \texttt{ind:1} option
+\item replace the \texttt{with:lines} option with \texttt{with:histograms}
+\end{enumerate}
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{../images/org-plot/example-3.png}
+\end{center}
+
+\subsection*{3d grid plots}
+\label{sec:org40ab638}
+
+There are also some functions for plotting 3d or grid data.  To see an
+example of a grid plot call org-plot/gnuplot \texttt{C-M-g} which will plot
+the following table as a grid.
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{../images/org-plot/example-4.png}
+\end{center}
+
+To see the effect of \texttt{map} try setting it to \texttt{t}, and then
+re-plotting.
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{../images/org-plot/example-5.png}
+\end{center}
+
+\begin{center}
+\begin{tabular}{rrrrrrrrrrrrrrrrr}
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 0\\
+0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 1 & 0\\
+0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+0 & 1 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\end{tabular}
+\end{center}
+
+Plotting grids also respects the independent variable (\texttt{ind:}) option,
+and uses the values of the independent row to label the resulting
+graph.  The following example borrows a short description of org-mode
+from Bernt Hansen on the mailing list (a more practical usage would
+label every single row with something informative).
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{../images/org-plot/example-6.png}
+\end{center}
+
+\begin{center}
+\begin{tabular}{lrrrrrrrrrrrrrrrrr}
+text & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+plain & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 0\\
+ & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+in & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+ & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 1 & 0\\
+everything & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+ & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+track & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+ & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+and & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 0\\
+ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+Organize & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\end{tabular}
+\end{center}
+
+\subsection*{3d plots}
+\label{sec:orgf4471f8}
+
+Finally the last type of graphing currently supported is 3d graphs of
+data in a table.  This will probably require some more knowledge of
+gnuplot to make full use of the many options available.
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{../images/org-plot/example-7.png}
+\end{center}
+
+For some simple demonstrations try the following graph using some
+different \texttt{with:} options \texttt{with:points}, \texttt{with:lines}, and
+\texttt{with:pm3d}.
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{../images/org-plot/example-8.png}
+\end{center}
+
+\begin{center}
+\begin{tabular}{rrrrrrr}
+0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 2 & 2 & 2 & 2 & 2 & 0\\
+0 & 2 & 3 & 3 & 3 & 2 & 0\\
+0 & 2 & 3 & 4 & 3 & 2 & 0\\
+0 & 2 & 3 & 3 & 3 & 2 & 0\\
+0 & 2 & 2 & 2 & 2 & 2 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\end{tabular}
+\end{center}
+
+\subsection*{Setting Axis Titles}
+\label{sec:org11fcfc9}
+The question of the proper syntax for setting axis labels via org-plot
+has occurred on the mailing list.\footnote{\url{http://www.mail-archive.com/emacs-orgmode@gnu.org/msg08669.html}} The answer is to use this:
+\begin{verbatim}
+#+PLOT: set:"xlabel 'Name'" set:"ylabel 'Name'"
+\end{verbatim}
+
+\section*{Reference}
+\label{sec:org10b0eb0}
+
+\subsection*{Plotting Options}
+\label{sec:org0b6991f}
+\#\label{orgf935ec6}
+
+Gnuplot options (see \href{http://gnuplot.sourceforge.net/documentation.html}{the gnuplot documentation}) accessible through
+`org-plot', common gnuplot options are specifically supported, while
+all other options are accessible through specification of generic set
+commands, script lines, or specification of custom script files.
+Possible options are\ldots{}
+
+\begin{description}
+\item[{set}] specify any gnuplot option to be set when graphing
+\item[{title}] specify the title of the plot
+\item[{ind}] specify which column of the table to use as the x axis
+\item[{deps}] specify the columns to graph as a lisp style list,
+surrounded by parenthesis and separated by spaces for
+example \texttt{dep:(3 4)} to graph the third and fourth columns
+(defaults to graphing all other columns aside from the ind
+column).
+\item[{type}] specify whether the plot will be '2d' '3d or 'grid'
+\item[{with}] specify a with option to be inserted for every col being
+plotted (e.g. lines, points, boxes, impulses, etc\ldots{})
+defaults to 'lines'
+\item[{file}] if you want to plot to a file specify the path to the
+desired output file
+\item[{labels}] list of labels to be used for the deps (defaults to column
+headers if they exist)
+\item[{line}] specify an entire line to be inserted in the gnuplot script
+\item[{map}] when plotting 3d or grid types, set this to true to graph a
+flat mapping rather than a 3d slope
+\item[{script}] if you want total control you can specify a script file
+(place the file name inside quotes) which will be used to
+plot, before plotting every instance of \$datafile in the
+specified script will be replaced with the path to the
+generated data file.  Note even if you set this option you
+may still want to specify the plot type, as that can
+impact the content of the data file.
+\item[{timefmt}] if there is time and/or date data to be plotted, set the
+format.  For example, \texttt{timefmt:\%Y-\%m-\%d} if the data look
+like \texttt{2008-03-25}.
+\end{description}
+\end{document}
