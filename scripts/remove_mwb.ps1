@@ -1,24 +1,41 @@
 
-# Check the installed applications
-$malwareBytes = Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*MalwareBytes*" }
+Write-Host "Attempting removal for MalwareBytes..." -ForegroundColor Yellow
+Write-Host "Checking for MalwareBytes registry keys..."
 
-# Check the installation type and uninstall accordingly
-if ($malwareBytes.InstallSource.StartsWith("msiexec")) {
-    # Uninstall using Windows Installer
-    $malwareBytes.Uninstall()
-}
-elseif ($malwareBytes.InstallSource.StartsWith("C:")) {
-    # Uninstall using an executable or other method
-    $installLocation = Split-Path -Path $malwareBytes.InstallSource -Parent
-    $uninstallPath = Join-Path -Path $installLocation -ChildPath "unins000.exe"
+write-host "MalwareBytes1: checking...."
+$malwareBytes1 = Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*MalwareBytes*" }
+write-host "...results for *MalwareBytes* :" $malwareBytes1
 
-    if (Test-Path $uninstallPath) {
-        Start-Process -FilePath $uninstallPath -ArgumentList "/S" -Wait
-    }
-    else {
-        Write-Host "Uninstall path not found."
-    }
+write-host "MalwareBytes2: checking...."
+$malwareBytes2 = Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*Malware*" }
+write-host "*Malware*" $malwareBytes2
+
+write-host "MalwareBytes3: checking...."
+$malwareBytes3 = Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*Bytes*" }
+write-host "*Bytes*" $malwareBytes3
+
+write-host "MalwareBytes4: checking...."
+$malwareBytes4 = Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*Malware Bytes*" }
+write-host "*Malware Bytes*" $malwareBytes4
+
+
+write-host 'checking for installed location via get-package.....'
+$installed_loc = get-package malware* | % { $_.metadata['installlocation'] }
+write-host 'installed_loc: ' $installed_loc
+
+get-package $installed_loc | uninstall-package -Force -Verbose
+
+
+$check_loc = get-package $installed_loc | % { $_.metadata['installlocation'] }
+
+if ($check_loc -eq $null) {
+    Write-Host "MalwareBytes has been removed"
 }
 else {
-    Write-Host "Unknown installation type."
+    Write-Host "MalwareBytes has not been removed"
 }
+
+
+
+
+#Get-Package malware* | % { $_.metadata['installlocation'] } | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue -Verbose    # Remove the installation folder    # Remove the installation folder        
