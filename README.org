@@ -1,5 +1,5 @@
 # video-lan-checker
-[[./img/logo.png]]
+[[./img/logo_sm.png]]
 * video-lan-checker
 ** series of scripts to aid the security camera installer
 
