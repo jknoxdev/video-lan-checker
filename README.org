@@ -2,8 +2,6 @@
 * video-lan-checker
 ** series of scripts to aid the security camera installer
 
- - running:
-
    - [[./scanner.py][scanner]] - scans the network and draws a cluster diagram
      [[./img/scanner.png]]
      #+begin_src sh :results output raw
@@ -32,4 +30,4 @@
    - test_scapy.py
    - running_man.py
      - rogue DHCP server checker.. shows packts for BS networks being broadcast on L2. 
-       
+
