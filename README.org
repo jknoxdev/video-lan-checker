@@ -1,4 +1,5 @@
 # video-lan-checker
+[[./img/logo.png]]
 * video-lan-checker
 ** series of scripts to aid the security camera installer
 
@@ -29,5 +30,4 @@
    - plot_traff.py
    - test_scapy.py
    - running_man.py
-     - rogue DHCP server checker.. shows packts for BS networks being broadcast on L2. 
-
+     - rogue DHCP server checker.. shows packts for BS networks being broadcast on L2.

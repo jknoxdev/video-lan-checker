@@ -291,7 +291,7 @@ Possible options are...
 - timefmt :: if there is time and/or date data to be plotted, set the
              format.  For example, =timefmt:%Y-%m-%d= if the data look
              like =2008-03-25=.
-             
+
 * Footnotes
 
 [fn:1] http://www.mail-archive.com/emacs-orgmode@gnu.org/msg08669.html
