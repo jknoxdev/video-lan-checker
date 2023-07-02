@@ -5,10 +5,31 @@
 
    - [[./scanner.py][scanner]] - scans the network and draws a cluster diagram
      [[./img/scanner.png]]
+   - installation: 
+     "normal" python environment
+     begin by placing in to it's own venv: 
+
+     | bash/zsh   | $ source <venv>/bin/activate      |
+     | fish       | $ source <venv>/bin/activate.fish |
+     | csh/tcsh   | $ source <venv>/bin/activate.csh  |
+     | PowerShell | $ <venv>/bin/Activate.ps1         |
+
+     then, lets setup the environment:
+
+     #+begin_src sh :results output raw
+     pip3 install matplotlib
+     pip3 install pythonping
+     pip3 install scapy
+     pip3 install network
+     #+end_src
+
      #+begin_src sh :results output raw
      sudo python scanner.py
      #+end_src
      - v0.01 - gets root, asks user for /24 ip range, draws the diagram, runs in parallel, does dns resolve for ips found, drops to layer 2 for unknowns
+
+
+
    - [[./src/plotter.py][harry_plotter]]
      - (make sure to run as root!) plots the ip addresses found on the network and shows each of the traffic types being generated.
        #+begin_src sh :results output raw
