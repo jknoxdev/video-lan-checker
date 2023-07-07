@@ -1,5 +1,7 @@
 * ntp_viewer
 
+
+
 #+begin_src python :results output none
 # author: justin knox
 # cowritten with: chatGPT 3.5
@@ -7,28 +9,64 @@
 # in a python gui with graphics
 #+end_src
 
+
+#+begin_src lisp :results output none
+global-display-fill-column-indicator-mode
+#+end_src
+
  - provide menu of the following (with q to exit): 
    - scans network for ntp packets (with q to exit)
-       prints on screen, ammends to ./data/ntp_data.csv:  
-       found_on_network_name (where network_name=(ipv4_subnet + current_machine_hostname + date_hour_min)), found_on_ip, found_from_ip, found_at_time, packet_data  
-     - searches through current line, and prints "the time found is " ntp, "from: "
+     - prints on screen, ammends to ./data/ntp_data.csv:  
+       - single line: 
+         found_on_((ipv4_subnet + current_machine_hostname + date_hour_min)), 
+         found_on_ip, 
+         found_from_ip, 
+         found_at_time, 
+         packet_data  
+   - searches through current line,
+     - prints "the time found is " ntp, "from: "
    - print all previous entries of csv to screen
    - print all seen ips from ntps in past
-     - searches through ./data/ntp_data.csv and prints to screen ntp servers seen on lan
+     - searches through ./data/ntp_data.csv
+       - prints to screen ntp servers seen on lan
    - show clock
      - scans network for local ntp time
-       - if none are found in 5 seconds, polls the gateway for ntp, prints this to the screen with each packet sent
-       - if nothing is found in 1 second, sends another poll, prints this
-       - if nothing is found after 5 seconds, it branches off in to 8 threads, and polls
-           thread1: Polls Server: pool.ntp.org, stores time to t1_timeval
-           thread2: Polls Server: time.nist.gov, stores time to t2_timeval
-           thread3: Polls Server: ptbtime1.ptb.de, ptbtime2.ptb.de, stores time to t3_timeval
-           thread4: Polls Server: clock-1.cs.wisc.edu, clock-2.cs.wisc.edu, stores time to t4_timeval
-           thread5: Polls Server: time.berkeley.edu, stores time to t5_timeval
-           thread6: Polls Server: ntp.cam.ac.uk, stores time to t6_timeval
-           thread7: Polls Server: au.pool.ntp.org, stores time to t7_timeval
-	   thread8:  a "task master" that aggregates the ntp threads's results and stores it in a "consensus_time_is" along with thread
-       - 
+       - if none are found in 5 seconds,
+	 - polls the gateway for ntp, prints this 
+           to the screen with each packet sent
+       - if nothing is found in 1 second,
+	 - sends another poll, prints this
+       - if nothing is found after 5 seconds,
+	 - branches off in to 8 threads,
+	   - polls
+             - thread1:
+	       - Polls Server: pool.ntp.org,
+	       - stores time to t1_timeval
+	     - thread2:
+	       - Polls Server: time.nist.gov,
+	       - stores time to t2_timeval
+	     - thread3:
+	       - Polls Server: ptbtime1.ptb.de, ptbtime2.ptb.de,
+	       - stores time to t3_timeval
+	     - thread4:
+	       - Polls Server: clock-1.cs.wisc.edu, clock-2.cs.wisc.edu,
+	       - stores time to t4_timeval
+	     - thread5:
+	       - Polls Server: time.berkeley.edu,
+	       - stores time to t5_timeval
+	     - thread6:
+	       - Polls Server: ntp.cam.ac.uk,
+	       - stores time to t6_timeval
+	     - thread7:
+	       - Polls Server: au.pool.ntp.org,
+	       - stores time to t7_timeval
+	     - thread8:
+	       - a "task master" that aggregates the ntp threads's
+	       - tracks results in "consensus_time_is" along with thread
+       - displays "current time found:" with ntp time
+       - opens new gtk window, with vertically and horizontally centered red 
+         "led" letters, showing the time, on dark grey background, and at 20% 
+         height
 
    - exit 
    
