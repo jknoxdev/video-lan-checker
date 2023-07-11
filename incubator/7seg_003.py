@@ -37,7 +37,8 @@ def draw_clock_display():
     screen.fill(DARK_GREY)
 
     # Render the current time as text
-    current_time = time.strftime("%H:%M:%S:%f")[:-3]  # Exclude milliseconds for simplicity
+    # Include milliseconds
+    current_time = time.strftime("%H:%M:%S:") + str(int(time.time() * 1000) % 1000).zfill(3)    
     text = font.render(current_time, True, RED)
 
     # Get the dimensions of the rendered text
@@ -61,7 +62,7 @@ while running:
             running = False
 
     # Get the current time
-    current_time = time.strftime("%H:%M:%S:%f")[:-3]  # Exclude milliseconds for simplicity
+    current_time = time.strftime("%H:%M:%S:") + str(int(time.time() * 1000) % 1000).zfill(3)
 
     # Draw the clock display
     draw_clock_display()
