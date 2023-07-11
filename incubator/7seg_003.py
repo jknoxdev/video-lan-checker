@@ -29,7 +29,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("LED 7-Segment Clock")
 
 # Load font
-font = pygame.font.Font(None, 200)
+font = pygame.font.Font("./fonts/7SEGMENTALDIGITALDISPLAY.ttf", 200)
 
 # Function to draw the clock display
 def draw_clock_display():
