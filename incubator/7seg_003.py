@@ -1,6 +1,3 @@
-
-* 
-#+begin_src python :exports file: ./7seg_001.py
 import pygame
 import time
 
@@ -31,13 +28,26 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("LED 7-Segment Clock")
 
+# Load font
+font = pygame.font.Font(None, 200)
+
 # Function to draw the clock display
 def draw_clock_display():
     # Clear the screen with dark grey color
     screen.fill(DARK_GREY)
 
-    # Draw the clock display
-    pygame.draw.rect(screen, RED, (clock_x, clock_y, clock_width, clock_height), 0)
+    # Render the current time as text
+    current_time = time.strftime("%H:%M:%S:%f")[:-3]  # Exclude milliseconds for simplicity
+    text = font.render(current_time, True, RED)
+
+    # Get the dimensions of the rendered text
+    text_rect = text.get_rect()
+
+    # Center the text in the clock display
+    text_rect.center = (clock_x + clock_width // 2, clock_y + clock_height // 2)
+
+    # Draw the text
+    screen.blit(text, text_rect)
 
     # Update the display
     pygame.display.flip()
@@ -64,7 +74,3 @@ while running:
 
 # Quit the program
 pygame.quit()
-#+end_src
-
-#+RESULTS:
-: None
