@@ -1,6 +1,18 @@
 
 * projects
 
+** 7seg
+
+*** updates:
+ - july 10 - project init, made basic timeclock app
+[[./img/7seg_v003.png]]
+ - future updates:
+   - add features:
+     - [ ] change background color on b
+     - [ ] slow and speed up clock with plus and minus
+     - [ ] look in to generating a midi timecode to sync
+     - [ ] draw a "slate" round the top and bottom of letters
+     - [ ] modify to have resizable window
 ** ntp_viewer
 
 *** updates: 

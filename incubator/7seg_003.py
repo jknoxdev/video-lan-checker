@@ -36,6 +36,7 @@ def draw_clock_display():
     # Clear the screen with dark grey color
     screen.fill(DARK_GREY)
 
+
     # Render the current time as text
     # Include milliseconds
     current_time = time.strftime("%H:%M:%S:") + str(int(time.time() * 1000) % 1000).zfill(3)    
