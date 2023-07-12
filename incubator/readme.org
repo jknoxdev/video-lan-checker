@@ -1,6 +1,5 @@
 
 * projects
-
 ** 7seg
 
 *** updates:
@@ -9,10 +8,17 @@
  - future updates:
    - add features:
      - [ ] change background color on b
-     - [ ] slow and speed up clock with plus and minus
+     - [1/3] slow and speed up clock with plus and minus
+       - [X] added pause "with spacebar"
+       - [ ] draw "speed up or slowdown when pressing -/+"
+       - [ ] add interval to slowdown speed up
+     - [ ] add QR code to bottom right corner for fun
+     - [ ] add QR code to bottom left with UUID of video
      - [ ] look in to generating a midi timecode to sync
      - [ ] draw a "slate" round the top and bottom of letters
-     - [ ] modify to have resizable window
+     - [0/2] modify to have resizable window
+       - [ ] added redraw code in for window
+       - [ ] finish troubleshooting
 ** ntp_viewer
 
 *** updates: 
