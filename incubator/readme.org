@@ -11,8 +11,7 @@
 | [[./img/7seg_bg3.png]] | [[./img/7seg_bg4.png]] |
 
  - july 10 - project init, made basic timeclock app
-[[
-./img/7seg_v003.png]]
+[[./img/7seg_v003.png]]
 
  - future updates:
    - add features [1/5]:
