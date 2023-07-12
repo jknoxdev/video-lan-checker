@@ -3,7 +3,11 @@
 * video-lan-checker
 ** series of scripts to aid the security camera installer
    -[[https://github.com/jknoxdev/video-lan-checker/tree/main/incubator#7seg][7seg]]: displays a 7seg window on a device for camera monitoring
-[[https://github.com/jknoxdev/video-lan-checker/blob/main/incubator/img/7seg_v003.png?raw=true]]
+
+ | [[./img/7seg_bg1.png]] | [[./img/7seg_bg2.png]] |
+ |--------------------+--------------------|
+ | [[./img/7seg_bg3.png]] | [[./img/7seg_bg4.png]] |
+
    - [[./scanner.py][scanner]] - scans the network and draws a cluster diagram
      [[./img/scanner.png]]
    - installation: 
