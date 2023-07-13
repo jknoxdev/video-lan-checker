@@ -38,6 +38,7 @@ fade_start_time = None
 fade_alpha = 255
 fade_text = None
 
+
 # Function to draw the clock display
 def draw_clock_display():
     # Clear the screen with current background color
@@ -61,7 +62,7 @@ def draw_clock_display():
     if fade_text:
         fade_text.set_alpha(fade_alpha)
         fade_text_rect = fade_text.get_rect()
-        fade_text_rect.center = (clock_x + clock_width // 2, clock_y + clock_height // 5)
+        fade_text_rect.center = (clock_x + clock_width // 2, clock_y + clock_height // 6)
         screen.blit(fade_text, fade_text_rect)
 
     # Invert the LED segments color
