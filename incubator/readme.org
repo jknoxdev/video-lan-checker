@@ -1,37 +1,35 @@
 
 * projects
 ** 7seg
-*** updates:
-**** july 11 - added pause on screen, init for resize
+**** TODO features [3/11]:
+  - [X] added pause on screen, init for resize (0711)
 
- | [[./img/7seg_bg1.png]] | [[./img/7seg_bg2.png]] |
- |--------------------+--------------------|
- | [[./img/7seg_bg3.png]] | [[./img/7seg_bg4.png]] |
+  | [[./img/7seg_bg1.png]] | [[./img/7seg_bg2.png]] |
+  |--------------------+--------------------|
+  | [[./img/7seg_bg3.png]] | [[./img/7seg_bg4.png]] |
 
-**** july 10 - project init, made basic timeclock app
- [[./img/7seg_v003.png]]
+  - [X] project init, made basic timeclock app (0710)
+  [[./img/7seg_v003.png]]
 
-**** future updates:
-    - add features [1/5]:
-      - [X] change background color on b
-      - [1/3] slow and speed up clock with plus and minus
-	- [X] added pause "with spacebar"
-	- [ ] draw "speed up or slowdown when pressing -/+"
-	- [ ] add interval to slowdown speed up
-      - [ ] add QR code to bottom right corner for fun
-      - [ ] add QR code to bottom left with UUID of video
-      - [ ] look in to generating a midi timecode to sync
-      - [ ] draw a "slate" round the top and bottom of letters
-      - [2/2] modify to have resizable window
-	- [X] added redraw code in for window
-	- [X] finish troubleshooting (0712)
-	  | [[./img/7seg-res4.png]] | [[./img/7seg-res1.png]] |
-	  | [[./img/7seg-res2.png]] | [[./img/7seg-res3.png]] |
+  - [X] change background color on b (0711)
+  - [2/2] modify to have resizable window (0713)
+    - [X] added redraw code in for window
+    - [X] finish troubleshooting (0712)
+	      | [[./img/7seg-res4.png]] |
+	      | [[./img/7seg-res2.png]] |
+  - [ ] slow and speed up clock with plus and minus
+  - [ ] added pause "with spacebar"
+  - [ ] draw "speed up or slowdown when pressing -/+"
+  - [ ] add interval to slowdown speed up
+  - [ ] add QR code to bottom right corner for fun
+  - [ ] add QR code to bottom left with UUID of video
+  - [ ] look in to generating a midi timecode to sync
+  - [ ] draw a "slate" round the top and bottom of letters
 
 
- #+begin_src sh :results output none
- python3 ./incubator/7seg.py
- #+end_src
+  #+begin_src sh :results output none
+  python3 ./incubator/7seg.py
+  #+end_src
 ** ntp_viewer
 
 *** updates: 
