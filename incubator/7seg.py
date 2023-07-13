@@ -38,6 +38,10 @@ fade_start_time = None
 fade_alpha = 255
 fade_text = None
 
+# Initialize resize event
+resize_event = pygame.event.Event(pygame.VIDEORESIZE, {"size": (screen_width, screen_height)})
+
+
 # Function to draw the clock display
 def draw_clock_display():
     # Clear the screen with current background color
@@ -86,30 +90,37 @@ background_color = DARK_GREY
 font_color = WHITE
 updating_text = font.render("+inv: ", True, WHITE)
 resize_text = None
+
 while running:
     # Check for events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
         elif event.type == pygame.VIDEORESIZE:
-            resize_event = event  # Capture the resize event
+            screen_width = event.w
+            screen_height = event.h
+            screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
+            clock_width = int(screen_width * 0.8)
+            clock_height = int(screen_height * 0.8)
+            clock_x = (screen_width - clock_width) // 2
+            clock_y = (screen_height - clock_height) // 2
+            window_resized = True
 
-        # Handle other events here...
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                paused = not paused
 
-    # Handle the captured resize event outside the event loop
-    if resize_event:
-        screen_width = resize_event.w
-        screen_height = resize_event.h
-        screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
-        clock_width = int(screen_width * 0.8)
-        clock_height = int(screen_height * 0.8)
-        clock_x = (screen_width - clock_width) // 2
-        clock_y = (screen_height - clock_height) // 2
+            elif event.key == pygame.K_b:
+                background_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+                font_color = (255 - background_color[0], 255 - background_color[1], 255 - background_color[2])
+                fade_text_effect(updating_text)
+
+    # Handle resizing event
+    if window_resized:
         resize_text = font.render(f"Resized: {screen_width}x{screen_height}", True, WHITE)
         fade_text_effect(resize_text)
-        resize_event = None  # Reset the resize event
-
-    # Handle other game logic and events...
+        window_resized = False
 
     # Get the current time
     current_time = time.strftime("%H:%M:%S:") + str(int(time.time() * 1000) % 1000).zfill(3)
