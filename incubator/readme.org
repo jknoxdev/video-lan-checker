@@ -15,8 +15,9 @@
   - [2/2] modify to have resizable window (0713)
     - [X] added redraw code in for window
     - [X] finish troubleshooting (0712)
-	      | [[./img/7seg-res4.png]] |
-	      | [[./img/7seg-res2.png]] |
+	      | [[./img/7seg-res4.png]] | [[./img/7seg-res1.png]] |
+	      | [[./img/7seg-res2.png]] | [[./img/7seg-res3.png]] |
+
   - [ ] slow and speed up clock with plus and minus
   - [ ] added pause "with spacebar"
   - [ ] draw "speed up or slowdown when pressing -/+"
