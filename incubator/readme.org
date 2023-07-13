@@ -28,6 +28,7 @@
 	  | [[./img/7seg-res4.png]] | [[./img/7seg-res1.png]] |
 	  | [[./img/7seg-res2.png]] | [[./img/7seg-res3.png]] |
 
+
  #+begin_src sh :results output none
  python3 ./incubator/7seg.py
  #+end_src
