@@ -2,7 +2,7 @@
 [[./img/logo_sm.png]]
 * video-lan-checker
 ** series of scripts to aid the security camera installer
-   -[[https://github.com/jknoxdev/video-lan-checker/tree/main/incubator#7seg][7seg]]: displays a 7seg window on a device for camera monitoring
+   - [[https://github.com/jknoxdev/video-lan-checker/tree/main/incubator#7s7seg]]: displays a 7seg window on a device for camera monitoring
 
 [[./img/7seg.png]]
 
