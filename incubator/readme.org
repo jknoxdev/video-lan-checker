@@ -1,7 +1,6 @@
-
 * projects
 ** 7seg
-**** TODO features [3/11]:
+**** TODO features [4/11]:
   - [X] added pause on screen, init for resize (0711)
 
   | [[./img/7seg_bg1.png]] | [[./img/7seg_bg2.png]] |
@@ -19,7 +18,7 @@
 	      | [[./img/7seg-res2.png]] | [[./img/7seg-res3.png]] |
 
   - [ ] slow and speed up clock with plus and minus
-  - [ ] added pause "with spacebar"
+  - [X] added pause "with spacebar" (0710)
   - [ ] draw "speed up or slowdown when pressing -/+"
   - [ ] add interval to slowdown speed up
   - [ ] add QR code to bottom right corner for fun
