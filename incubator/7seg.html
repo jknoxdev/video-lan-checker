@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LED 7-Segment Clock</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Define colors
+        const DARK_GREY = "#282828";
+        const WHITE = "#FFFFFF";
+
+        // Set the screen dimensions
+        let screen_width = 800;
+        let screen_height = 600;
+
+        // Set the size of the clock display
+        let clock_width = Math.floor(screen_width * 0.8);
+        let clock_height = Math.floor(screen_height * 0.8);
+
+        // Calculate the position of the clock display
+        let clock_x = Math.floor((screen_width - clock_width) / 2);
+        let clock_y = Math.floor((screen_height - clock_height) / 2);
+
+        // Set the frame rate (60fps)
+        const fps = 60;
+
+        // Create the canvas element
+        const canvas = document.createElement("canvas");
+        canvas.width = screen_width;
+        canvas.height = screen_height;
+        document.body.appendChild(canvas);
+
+        // Get the drawing context
+        const ctx = canvas.getContext("2d");
+
+        // Load font
+        const font = "200px Arial";
+
+        // Fading text variables
+        const fade_duration = 3000; // Duration of the fading text in milliseconds
+        let fade_start_time = null;
+        let fade_alpha = 255;
+        let fade_text = null;
+
+        // Initialize background and font colors
+        let background_color = DARK_GREY;
+        let font_color = WHITE;
+
+        // Function to draw the clock display
+        function drawClockDisplay() {
+            // Clear the screen with current background color
+            ctx.fillStyle = background_color;
+            ctx.fillRect(0, 0, screen_width, screen_height);
+
+            // Render the current time as text
+            // Include milliseconds
+            const currentTime = new Date().toISOString().slice(11, -4);
+            ctx.font = font;
+            ctx.fillStyle = font_color;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(currentTime, clock_x + clock_width / 2, clock_y + clock_height / 2);
+
+            // Draw the fading text if available
+            if (fade_text) {
+                ctx.save();
+                ctx.globalAlpha = fade_alpha / 255;
+                ctx.fillStyle = WHITE;
+                ctx.textAlign = "center";
+                ctx.fillText(fade_text, clock_x + clock_width / 2, clock_y + clock_height / 6);
+                ctx.restore();
+            }
+
+            // Invert the LED segments color
+            const inverted_background_color = `rgb(${255 - background_color[0]}, ${255 - background_color[1]}, ${255 - background_color[2]})`;
+            const inverted_font_color = `rgb(${255 - font_color[0]}, ${255 - font_color[1]}, ${255 - font_color[2]})`;
+        }
+
+        // Function to fade the text
+        function fadeTextEffect(text) {
+            fade_start_time = Date.now();
+            fade_alpha = 255;
+            fade_text = text;
+        }
+
+        // Event listener for window resize
+        window.addEventListener("resize", () => {
+            screen_width = window.innerWidth;
+            screen_height = window.innerHeight;
+            canvas.width = screen_width;
+            canvas.height = screen_height;
+            clock_width = Math.floor(screen_width * 0.8);
+            clock_height = Math.floor(screen_height * 0.8);
+            clock_x = Math.floor((screen_width - clock_width) / 2);
+            clock_y = Math.floor((screen_height - clock_height) / 2);
+
+            const resize_text = `Resized: ${screen_width}x${screen_height}`;
+            fadeTextEffect(resize_text);
+        });
+
+        // Main game loop
+        let paused = false;
+
+        function gameLoop() {
+            // Get the current time
+            const currentTime = new Date().toISOString().slice(11, -4);
+
+            // Only update and draw the clock display if not paused
+            if (!paused) {
+                // Draw the clock display
+                drawClockDisplay();
+
+                // Print the current time in the console
+                console.log(currentTime);
+            }
+
+            // Handle fading text effect
+            if (fade_text && fade_alpha > 0) {
+                const elapsed_time = Date.now() - fade_start_time;
+                if (elapsed_time > fade_duration) {
+                    fade_text = null;
+                } else {
+                    fade_alpha = 255 - Math.floor((elapsed_time / fade_duration) * 255);
+                }
+            }
+
+            // Request the next frame
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game loop
+        gameLoop();
+    </script>
+</body>
+</html>
