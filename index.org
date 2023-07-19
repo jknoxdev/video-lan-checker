@@ -1,3 +1,5 @@
+#+AUTHOR: Justin Knox
+#+TITLE: Demo page links for Video Lan Checker Projects
 * demos:
 ** incubator: 
 7-seg: 
