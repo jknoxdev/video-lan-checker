@@ -1,0 +1,5 @@
+* demos:
+** incubator: 
+7-seg: 
+simple html example, working on porting the python version over
+[[./incubator/7seg.html]]
