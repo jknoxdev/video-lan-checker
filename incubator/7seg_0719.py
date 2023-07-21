@@ -91,9 +91,6 @@ font_color = WHITE
 updating_text = font.render("+inv: ", True, WHITE)
 resize_text = None
 
-#initialize
-window_resized = False
-
 while running:
     # Check for events
     for event in pygame.event.get():
