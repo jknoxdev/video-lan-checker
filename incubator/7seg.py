@@ -38,10 +38,6 @@ fade_start_time = None
 fade_alpha = 255
 fade_text = None
 
-# Initialize resize event
-resize_event = pygame.event.Event(pygame.VIDEORESIZE, {"size": (screen_width, screen_height)})
-
-
 # Function to draw the clock display
 def draw_clock_display():
     # Clear the screen with current background color
@@ -91,8 +87,11 @@ font_color = WHITE
 updating_text = font.render("+inv: ", True, WHITE)
 resize_text = None
 
-#initialize
+# Initialize
 window_resized = False
+speed_update_text = font.render("", True, WHITE)
+frame_start_time = 60
+milliseconds_update = True
 
 while running:
     # Check for events
@@ -119,6 +118,24 @@ while running:
                 font_color = (255 - background_color[0], 255 - background_color[1], 255 - background_color[2])
                 fade_text_effect(updating_text)
 
+            elif event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS or event.key == pygame.K_p:
+                # Increase refresh rate by 25ms (40fps)
+                fps += 125
+                speed_update_text = font.render("+125ms:" + str(fps), True, WHITE)
+                fade_text_effect(speed_update_text)
+
+            elif event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS or event.key == pygame.K_m:
+                # Decrease refresh rate by 25ms (or increase by 1000ms to prevent negative value)
+                fps = int(max(1000 / 60, fps - 125))
+                speed_update_text = font.render("-125ms: " + str(fps), True, WHITE)
+                fade_text_effect(speed_update_text)
+            elif event.key == pygame.K_s:  # Press 'S' to switch between 1 second and milliseconds update intervals
+                milliseconds_update = not milliseconds_update
+                if milliseconds_update:
+                    update_rate_seconds = 0.001  # 1 millisecond update interval
+                else:
+                    update_rate_seconds = 1  # 1-second update interval
+                fps = 1 / update_rate_seconds
     # Handle resizing event
     if window_resized:
         resize_text = font.render(f"Resized: {screen_width}x{screen_height}", True, WHITE)
@@ -145,7 +162,22 @@ while running:
             fade_alpha = 255 - int((elapsed_time / fade_duration) * 255)
 
     # Limit the frame rate
-    clock.tick(fps)
+    #    clock.tick(fps)
 
+    clock.tick(fps)  # This will regulate the frame rate
+
+    
+    # Calculate the time it takes to render a frame at the desired frame rate
+    # frame_time = 1000 / fps
+
+    # # Calculate the time taken to render the last frame
+    # frame_elapsed_time = pygame.time.get_ticks() - frame_start_time
+
+    # # Delay the remaining time to achieve the desired frame rate
+    # if frame_elapsed_time < frame_time:
+    #     pygame.time.delay(int(frame_time - frame_elapsed_time))
+
+    frame_start_time = pygame.time.get_ticks()
+    
 # Quit the program
 pygame.quit()
