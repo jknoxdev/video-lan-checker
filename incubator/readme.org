@@ -1,1 +1,1 @@
-Buffer readme.org<incubator> modified; kill anyway? (yes or no) 
+Buffer readme.org<incubator> modified; kill anyway? (yes or no) yes
