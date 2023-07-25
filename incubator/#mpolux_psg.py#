@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 
 def create_grid(num_boxes):
-    layout = [[sg.Canvas(size=(100, 40), background_color='white', pad=(10, 10), key=f'cell_{i}_{j}') for j in range(num_boxes // 2)] for i in range(2)]
+    layout = [[sg.Canvas(size=(100, 40), background_color='dark grey', pad=(10, 10), key=f'cell_{i}_{j}') for j in range(num_boxes // 2)] for i in range(2)]
     return layout
 
 def on_channel_button_click(channel_count):
@@ -10,7 +10,7 @@ def on_channel_button_click(channel_count):
     window['-GRID-'].update(layout)
     print(f"{channel_count} button pressed.")
 
-sg.theme("DarkBrown")  # Setting theme to None uses the system default theme
+sg.theme("Dark")  # Setting theme to None uses the system default theme
 
 layout = [
     [sg.Text("mpo lux", font=("Arial", 20))],
