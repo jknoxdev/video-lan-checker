@@ -1,6 +1,7 @@
 * projects
 ** mpo_lux
  - [[./mpolux.org]]
+   [[./img/mpolux_init.png]]
    - [X] 0725 - proj. init, generate bg w/ icons, idea placeholder
 ** 7seg
 **** TODO features [7/11]:
@@ -32,7 +33,7 @@
   - [ ] look in to generating a midi timecode to sync
   - [ ] draw a "slate" round the top and bottom of letters
 
-
+  
   #+begin_src sh :results output none
   python3 ./incubator/7seg.py
   #+end_src
