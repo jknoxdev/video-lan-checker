@@ -161,21 +161,7 @@ while running:
         else:
             fade_alpha = 255 - int((elapsed_time / fade_duration) * 255)
 
-    # Limit the frame rate
-    #    clock.tick(fps)
-
     clock.tick(fps)  # This will regulate the frame rate
-
-    
-    # Calculate the time it takes to render a frame at the desired frame rate
-    # frame_time = 1000 / fps
-
-    # # Calculate the time taken to render the last frame
-    # frame_elapsed_time = pygame.time.get_ticks() - frame_start_time
-
-    # # Delay the remaining time to achieve the desired frame rate
-    # if frame_elapsed_time < frame_time:
-    #     pygame.time.delay(int(frame_time - frame_elapsed_time))
 
     frame_start_time = pygame.time.get_ticks()
     
