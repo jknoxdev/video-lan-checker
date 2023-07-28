@@ -4,16 +4,20 @@
    [[./img/mpolux_init.png]]
    - [X] 0725 - proj. init, generate bg w/ icons, idea placeholder
 ** 7seg
-**** TODO features [8/12]:
-  - [X] added pause on screen, init for resize (0711)
+**** updates & features:
+***** TODO fix fulscreen mode resolution (0727)
 
-  | [[./img/7seg_bg1.png]] | [[./img/7seg_bg2.png]] |
-  |--------------------+--------------------|
-  | [[./img/7seg_bg3.png]] | [[./img/7seg_bg4.png]] |
-
-  - [X] project init, made basic timeclock app (0710)
-  [[./img/7seg_v003.png]]
-
+***** DONE add pause on screen, init for resize (0711)
+   | [[./img/7seg_bg1.png]] | [[./img/7seg_bg2.png]] |
+   |--------------------+--------------------|
+   | [[./img/7seg_bg3.png]] | [[./img/7seg_bg4.png]] |
+***** TODO add QR code to bottom right corner for fun
+***** TODO add QR code to bottom left with UUID of video
+***** TODO look in to generating a midi timecode to sync
+***** TODO draw a "slate" round the top and bottom of letters
+***** DONE project init, made basic timeclock app (0710)
+   [[./img/7seg_v003.png]]
+**** DONE ui bugs: [6/6]
   - [X] change background color on b (0711)
   - [2/2] modify to have resizable window (0713)
     - [X] added redraw code in for window
@@ -28,13 +32,10 @@
   [[./img/7seg_ms.png]]
 
   - [X] added pause "with spacebar" (0710)
-  - [ ] add QR code to bottom right corner for fun
-  - [ ] add QR code to bottom left with UUID of video
-  - [ ] look in to generating a midi timecode to sync
-  - [ ] draw a "slate" round the top and bottom of letters
   - [X] add a full screen mode (0725)
     
     [[./img/7seg_fs.png]]
+
 
 
 
