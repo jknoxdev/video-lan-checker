@@ -59,6 +59,7 @@ speed_update_text = font.render("", True, WHITE)
 frame_start_time = 60
 milliseconds_update = True
 
+
 while running:
     # Check for events
     for event in pygame.event.get():
@@ -79,38 +80,44 @@ while running:
             if event.key == pygame.K_SPACE:
                 paused = not paused
 
-            elif event.key == pygame.K_b:
-                background_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-                font_color = (255 - background_color[0], 255 - background_color[1], 255 - background_color[2])
-                fade_text_effect(updating_text)
+            # ... (previous key events)
 
-            elif event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS or event.key == pygame.K_p:
-                # Increase refresh rate by 25ms (40fps)
-                fps += 125
-                speed_update_text = font.render("+125ms:" + str(fps), True, WHITE)
-                fade_text_effect(speed_update_text)
-
-            elif event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS or event.key == pygame.K_m:
-                # Decrease refresh rate by 25ms (or increase by 1000ms to prevent negative value)
-                fps = int(max(1000 / 60, fps - 125))
-                speed_update_text = font.render("-125ms: " + str(fps), True, WHITE)
-                fade_text_effect(speed_update_text)
-            elif event.key == pygame.K_s:  # Press 'S' to switch between 1 second and milliseconds update intervals
-                milliseconds_update = not milliseconds_update
-                if milliseconds_update:
-                    update_rate_seconds = 0.001  # 1 millisecond update interval
-                else:
-                    update_rate_seconds = 1  # 1-second update interval
-                fps = 1 / update_rate_seconds
             elif event.key == pygame.K_f:  # Press 'F' to toggle fullscreen mode
                 fullscreen = not fullscreen
                 if fullscreen:
-                    screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
+                    # Get the native screen resolution
+                    modes = pygame.display.list_modes()
+                    native_width, native_height = modes[0]
+                    # screen = pygame.display.set_mode((native_width, native_height), pygame.FULLSCREEN)
+            
+                    # Get the native screen
+                    # info = pygame.display.Info()
+                    # native_width, native_height = info.current_w, info.current_h
+                    screen = pygame.display.set_mode((native_width, native_height), pygame.FULLSCREEN)
+                    # Redraw the clock display
+                    clock_width = int(native_width * 0.8)
+                    clock_height = int(native_height * 0.8)
+                    clock_x = (native_width - clock_width) // 2
+                    clock_y = (native_height - clock_height) // 2
+                    draw_clock_display()
+
+                    # Output the screen resolution to the console
+                    print(f"Screen resolution: {native_width}x{native_height}")
                 else:
                     screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
+                    # Redraw the clock display
+                    clock_width = int(screen_width * 0.8)
+                    clock_height = int(screen_height * 0.8)
+                    clock_x = (screen_width - clock_width) // 2
+                    clock_y = (screen_height - clock_height) // 2
+                    draw_clock_display()
+
+                    # Output the screen resolution to the console
+                    print(f"Screen resolution: {screen_width}x{screen_height}")
                 window_resized = True  # Trigger resizing event to handle clock display centering
 
-    # Handle resizing event
+
+# Handle resizing event
     # ... (unchanged code)
 
     # Get the current time
