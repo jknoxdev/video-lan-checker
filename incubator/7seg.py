@@ -40,10 +40,45 @@ fade_alpha = 255
 fade_text = None
 
 # Function to draw the clock display
-# ... (unchanged code)
+def draw_clock_display():
+    # Clear the screen with current background color
+    screen.fill(background_color)
+
+    # Render the current time as text
+    # Include milliseconds
+    current_time = time.strftime("%H:%M:%S:") + str(int(time.time() * 1000) % 1000).zfill(3)
+    text = font.render(current_time, True, font_color)
+
+    # Get the dimensions of the rendered text
+    text_rect = text.get_rect()
+
+    # Center the text in the clock display
+    text_rect.center = (clock_x + clock_width // 2, clock_y + clock_height // 2)
+
+    # Draw the text
+    screen.blit(text, text_rect)
+
+    # Draw the fading text if available
+    if fade_text:
+        fade_text.set_alpha(fade_alpha)
+        fade_text_rect = fade_text.get_rect()
+        fade_text_rect.center = (clock_x + clock_width // 2, clock_y + clock_height // 6)
+        screen.blit(fade_text, fade_text_rect)
+
+    # Invert the LED segments color
+    inverted_background_color = (255 - background_color[0], 255 - background_color[1], 255 - background_color[2])
+    inverted_font_color = (255 - font_color[0], 255 - font_color[1], 255 - font_color[2])
+
+    # Update the display
+    pygame.display.flip()
 
 # Function to fade the text
-# ... (unchanged code)
+def fade_text_effect(text):
+    global fade_start_time, fade_alpha, fade_text
+
+    fade_start_time = pygame.time.get_ticks()
+    fade_alpha = 255
+    fade_text = text
 
 # Main game loop
 running = True
@@ -58,7 +93,6 @@ window_resized = False
 speed_update_text = font.render("", True, WHITE)
 frame_start_time = 60
 milliseconds_update = True
-
 
 while running:
     # Check for events
@@ -76,49 +110,56 @@ while running:
             clock_y = (screen_height - clock_height) // 2
             window_resized = True
 
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                paused = not paused
+    # Additional event handling for fullscreen mode
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE]:
+        paused = not paused
+    if keys[pygame.K_b]:
+        background_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        font_color = (255 - background_color[0], 255 - background_color[1], 255 - background_color[2])
+        fade_text_effect(updating_text)
+    if keys[pygame.K_PLUS] or keys[pygame.K_KP_PLUS] or keys[pygame.K_p]:
+        fps += 125
+        speed_update_text = font.render("+125ms:" + str(fps), True, WHITE)
+        fade_text_effect(speed_update_text)
+    if keys[pygame.K_MINUS] or keys[pygame.K_KP_MINUS] or keys[pygame.K_m]:
+        fps = int(max(1000 / 60, fps - 125))
+        speed_update_text = font.render("-125ms: " + str(fps), True, WHITE)
+        fade_text_effect(speed_update_text)
+    if keys[pygame.K_s]:  # Press 'S' to switch between 1 second and milliseconds update intervals
+        milliseconds_update = not milliseconds_update
+        if milliseconds_update:
+            update_rate_seconds = 0.001  # 1 millisecond update interval
+        else:
+            update_rate_seconds = 1  # 1-second update interval
+        fps = 1 / update_rate_seconds
+    if keys[pygame.K_f]:  # Press 'F' to toggle fullscreen mode
+        fullscreen = not fullscreen
+        if fullscreen:
+            modes = pygame.display.list_modes()
+            native_width, native_height = modes[0]
+            screen = pygame.display.set_mode((native_width, native_height), pygame.FULLSCREEN)
+            clock_width = int(native_width * 0.8)
+            clock_height = int(native_height * 0.8)
+            clock_x = (native_width - clock_width) // 2
+            clock_y = (native_height - clock_height) // 2
+            draw_clock_display()
+            print(f"Screen resolution: {native_width}x{native_height}")
+        else:
+            screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
+            clock_width = int(screen_width * 0.8)
+            clock_height = int(screen_height * 0.8)
+            clock_x = (screen_width - clock_width) // 2
+            clock_y = (screen_height - clock_height) // 2
+            draw_clock_display()
+            print(f"Screen resolution: {screen_width}x{screen_height}")
+        window_resized = True
 
-            # ... (previous key events)
-
-            elif event.key == pygame.K_f:  # Press 'F' to toggle fullscreen mode
-                fullscreen = not fullscreen
-                if fullscreen:
-                    # Get the native screen resolution
-                    modes = pygame.display.list_modes()
-                    native_width, native_height = modes[0]
-                    # screen = pygame.display.set_mode((native_width, native_height), pygame.FULLSCREEN)
-            
-                    # Get the native screen
-                    # info = pygame.display.Info()
-                    # native_width, native_height = info.current_w, info.current_h
-                    screen = pygame.display.set_mode((native_width, native_height), pygame.FULLSCREEN)
-                    # Redraw the clock display
-                    clock_width = int(native_width * 0.8)
-                    clock_height = int(native_height * 0.8)
-                    clock_x = (native_width - clock_width) // 2
-                    clock_y = (native_height - clock_height) // 2
-                    draw_clock_display()
-
-                    # Output the screen resolution to the console
-                    print(f"Screen resolution: {native_width}x{native_height}")
-                else:
-                    screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
-                    # Redraw the clock display
-                    clock_width = int(screen_width * 0.8)
-                    clock_height = int(screen_height * 0.8)
-                    clock_x = (screen_width - clock_width) // 2
-                    clock_y = (screen_height - clock_height) // 2
-                    draw_clock_display()
-
-                    # Output the screen resolution to the console
-                    print(f"Screen resolution: {screen_width}x{screen_height}")
-                window_resized = True  # Trigger resizing event to handle clock display centering
-
-
-# Handle resizing event
-    # ... (unchanged code)
+    # Handle resizing event
+    if window_resized:
+        resize_text = font.render(f"Resized: {screen_width}x{screen_height}", True, WHITE)
+        fade_text_effect(resize_text)
+        window_resized = False
 
     # Get the current time
     current_time = time.strftime("%H:%M:%S:") + str(int(time.time() * 1000) % 1000).zfill(3)
@@ -132,10 +173,14 @@ while running:
         print(current_time)
 
     # Handle fading text effect
-    # ... (unchanged code)
+    if fade_text and fade_alpha > 0:
+        elapsed_time = pygame.time.get_ticks() - fade_start_time
+        if elapsed_time > fade_duration:
+            fade_text = None
+        else:
+            fade_alpha = 255 - int((elapsed_time / fade_duration) * 255)
 
     clock.tick(fps)  # This will regulate the frame rate
-
     frame_start_time = pygame.time.get_ticks()
 
 # Quit the program

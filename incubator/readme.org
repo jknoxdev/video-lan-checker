@@ -6,7 +6,8 @@
 ** 7seg
 **** updates & features:
 ***** TODO fix fulscreen mode resolution (0727)
-
+ - [ ] added a full screen mode, system detects native res and outputs
+ | [[./img/7seg_fs1.png]] | [[./img/7seg_fs2.png]] |
 ***** DONE add pause on screen, init for resize (0711)
    | [[./img/7seg_bg1.png]] | [[./img/7seg_bg2.png]] |
    |--------------------+--------------------|
