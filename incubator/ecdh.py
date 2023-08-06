@@ -125,15 +125,17 @@ print("Private Key QR Code Saved to File")
 
 # create the public key qr code
 public_key_qr_code = qrcode.make(public_key)
+print("created public key qr code...")
 
 # create the elliptical curve qr code
 elliptical_curve_qr_code = qrcode.make("y^2 = x^3 + ax + b")
+print("created elliptical curve qr code...")
 
 # draw the canvas to the screen in fullscreen mode
-canvas.pack(fill=tk.BOTH, expand=1)
+# canvas.pack(fill=tk.BOTH, expand=1)
 
 # open the image files
-private_key_qr_code = tk.PhotoImage(file="private_key_qr_code.png")
+# private_key_qr_code = tk.PhotoImage(file="private_key_qr_code.png")
 
 
 
