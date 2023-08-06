@@ -110,17 +110,7 @@ print ("---------------------=-=-=-=---------------------------------=-=-=------
 print (" loading complete... ")
 print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
 
-# print to console private key saved to file
-print("Private Key Saved to File" + "\n" + "Filename: edsa_private_key.key")
-
-
-# print to the console that the qrcode has been saved as with the filename
-print("Private Key QR Code Saved to File")
-
-
-
-
-
+print("Drawing the gui...")
 # draw the graphical window, first grab the resolution of the screen
 root = tk.Tk()
 screen_width = root.winfo_screenwidth()
@@ -131,7 +121,7 @@ print("Screen Height: " + str(screen_height))
 # create the window
 window = tk.Tk()
 window.title("Elliptical Curve Digital Signature Algorithm")
-window.geometry(str(screen_width) + "x" + str(screen_height))
+window.geometry(str(screen_width-50) + "x" + str(screen_height-50))
 window.configure(background='black')
 
 # create the canvas
@@ -153,10 +143,29 @@ elliptical_curve_label.place(x=0, y=100)
 
 
 
+# create the qr codes and write to file
+private_key_qr_code = qrcode.make(private_key)
+print("created private key qr code...")
+f = open("keys/private_key_qr_code.png", "wb")
+private_key_qr_code.save(f)
+f.close()
+public_key_qr_code = qrcode.make(public_key)
+print("created public key qr code...")
+f = open("keys/public_key_qr_code.png", "wb")
+public_key_qr_code.save(f)
+f.close()
+elliptical_curve_qr_code = qrcode.make("y^2 = x^3 + ax + b")
+print("created elliptical curve qr code...")
+f = open("keys/elliptical_curve_qr_code.png", "wb")
+elliptical_curve_qr_code.save(f)
+f.close()
+
+
 
 # create the public key qr code
 public_key_qr_code = qrcode.make(public_key)
 print("created public key qr code...")
+
 
 # create the elliptical curve qr code
 elliptical_curve_qr_code = qrcode.make("y^2 = x^3 + ax + b")
