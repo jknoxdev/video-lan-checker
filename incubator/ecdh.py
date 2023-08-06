@@ -27,16 +27,99 @@ import time
 import sys
 import binascii
 
-# generate a random private key
+# ---------------------------------
+# load keys from keyfile
+# ---------------------------------
+# folder doesn't exist, create or load file
+print("loading keys...")
+if not os.path.exists("keys"):
+    os.makedirs("keys")
+    print("no keyfolder found... keys folder created...")
+else:
+    print("keys folder found... moving on to check for existing key file...")
+    
+if not os.path.exists("keys/edsa_private_key.key"):
+    print("edsa_private_key.key file not found... creating file...")
+    # generate new keypair and write to file
+    private_key = os.urandom(32).hex().upper()
+    public_key = ecdsa.SigningKey.from_string(bytes.fromhex(private_key), curve=ecdsa.SECP256k1).verifying_key.to_string().hex().upper()
+    print("Private Key: " + private_key)
+    print("Public Key: " + public_key)
 
-private_key = os.urandom(32).hex().upper()
-print("Private Key: " + private_key)
+    f = open("keys/edsa_private_key.key", "w")
+    f.write(private_key)
+    f.close()
+    
+    f = open("keys/edsa_public_key.key", "w")
+    f.write(public_key)
+    f.close()
 
-# generate a public key from the private key
-public_key = ecdsa.SigningKey.from_string(bytes.fromhex(private_key), curve=ecdsa.SECP256k1).verifying_key.to_string().hex().upper()
+    print("edsa_private_key.key file created...")    
+    print("edsa_public_key.key file created...")
+# folder exists, create or load keyfiles
+# TODO: create logic one keyfile is missing, right now just deletet the directories and files and run the script again
+else:
+    print("edsa_private_key.key file found... moving on to load keyfile...")
+    f = open("keys/edsa_private_key.key", "r")
+    private_key = f.read()
+    f.close()
+    f = open("keys/edsa_public_key.key", "r")
+    public_key = f.read()
+    f.close()
+    print("edsa_private_key.key file loaded...")
+    print("edsa_public_key.key file loaded...")
+    print("Private Key: " + private_key)
+    print("Public Key: " + public_key)
+    print("Elliptical Curve: y^2 = x^3 + ax + b")
+    
+#folder exists, create or load file
+if not os.path.exists("keys/edsa_private_key.key"):
+    print("edsa_private_key.key file not found... creating file...")
+    # generate new keypair and write to file
+    private_key = os.urandom(32).hex().upper()
+    public_key = ecdsa.SigningKey.from_string(bytes.fromhex(private_key), curve=ecdsa.SECP256k1).verifying_key.to_string().hex().upper()
+    print("Private Key: " + private_key)
+    print("Public Key: " + public_key)
+    f = open("keys/edsa_private_key.key", "w")
+    f.write(private_key)
+    f.close()
+    f = open("keys/edsa_public_key.key", "w")
+    f.write(public_key)
+    f.close()
+
+    print("edsa_private_key.key file created...")
+    print("edsa_public_key.key file created...")
+    print("Private Key: " + private_key)
+    print("Public Key: " + public_key)
+    print("Elliptical Curve: y^2 = x^3 + ax + b")
+else:
+    print("edsa_private_key.key file found... moving on to load keyfile...")
+    f = open("keys/edsa_private_key.key", "r")
+    private_key = f.read()
+    f.close()
+    f = open("keys/edsa_public_key.key", "r")
+    public_key = f.read()
+    f.close()
+    print("edsa_private_key.key file loaded...")
+    print("Private Key: " + private_key)
+    print("Public Key: " + public_key)
+    print("Elliptical Curve: y^2 = x^3 + ax + b")
+        
+
+print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
+print (" loading complete... ")
+print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
+
+# print to console private key saved to file
+print("Private Key Saved to File" + "\n" + "Filename: edsa_private_key.key")
 
 
-print("Public Key: " + public_key)
+# print to the console that the qrcode has been saved as with the filename
+print("Private Key QR Code Saved to File")
+
+
+
+
 
 # draw the graphical window, first grab the resolution of the screen
 root = tk.Tk()
@@ -68,60 +151,8 @@ elliptical_curve_label = tk.Label(window, text="Elliptical Curve: y^2 = x^3 + ax
 elliptical_curve_label.place(x=0, y=100)
 
 
-# save the private key as a keyfile
-
-# load keys from keyfile
-
-# folder doesn't exist, create or load file
-if not os.path.exists("keys"):
-    os.makedirs("keys")
-    print("keys folder created...")
-else:
-    print("keys folder found... moving on to check for existing key file...")
-    
-if not os.path.exists("keys/edsa_private_key.key"):
-    print("edsa_private_key.key file not found... creating file...")
-    f = open("keys/edsa_private_key.key", "w")
-    f.write(private_key)
-    f.close()
-    print("edsa_private_key.key file created...")    
-else:
-    print("edsa_private_key.key file found... moving on to load keyfile...")
-    f = open("keys/edsa_private_key.key", "r")
-    private_key = f.read()
-    f.close()
-    print("edsa_private_key.key file loaded...")
-    print("Private Key: " + private_key)
-    print("Public Key: " + public_key)
-    print("Elliptical Curve: y^2 = x^3 + ax + b")
-    #folder exists, create or load file
-if not os.path.exists("keys/edsa_private_key.key"):
-    print("edsa_private_key.key file not found... creating file...")
-    f = open("keys/edsa_private_key.key", "w")
-    f.write(private_key)
-    f.close()
-    print("edsa_private_key.key file created...")
-else:
-    print("edsa_private_key.key file found... moving on to load keyfile...")
-    f = open("keys/edsa_private_key.key", "r")
-    private_key = f.read()
-    f.close()
-    print("edsa_private_key.key file loaded...")
-    print("Private Key: " + private_key)
-    print("Public Key: " + public_key)
-    print("Elliptical Curve: y^2 = x^3 + ax + b")
-        
-
-print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
-print (" loading complete... ")
-print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
-
-# print to console private key saved to file
-print("Private Key Saved to File" + "\n" + "Filename: edsa_private_key.key")
 
 
-# print to the console that the qrcode has been saved as with the filename
-print("Private Key QR Code Saved to File")
 
 # create the public key qr code
 public_key_qr_code = qrcode.make(public_key)
