@@ -3,7 +3,7 @@ import os
 import qrcode
 from PIL import Image
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QImage  # Import QImage
 
 class ECDSApp(QMainWindow):
     def __init__(self):
