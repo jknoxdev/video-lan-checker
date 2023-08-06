@@ -13,34 +13,20 @@
 
 # import the necessary libraries
 import ecdsa
-import hashlib
-import base58
-import binascii
 import os
-import codecs
-import random
-import sys
-import time
-import datetime
-import json
-import requests
-import urllib.request
-import urllib.parse
-import urllib.error
-import ssl
-import socket
-import http.client
-import subprocess
-import shutil
-import getpass
-import platform
-import re
-import uuid
-import logging
-import logging.handlers
-import configparser
-import csv
+import qrcode
+import tkinter as tk
+import tkinter.ttk as ttk
+import tkinter.font as tkFont
 
+import math
+import random
+import time
+import sys
+import os
+import qrcode
+
+import sha3, random binascii
 
 # generate a random private key
 
@@ -48,6 +34,47 @@ private_key = os.urandom(32).hex().upper()
 print("Private Key: " + private_key)
 
 # generate a public key from the private key
-public_key = ecdsa.SigningKey.from_string(private_key, curve=ecdsa.SECP256k1).verifying_key.to_string().hex().upper()
+public_key = ecdsa.SigningKey.from_string(private_key, curve=ecdsa.SECP256k1).verifying_key
 
 print("Public Key: " + public_key)
+
+# draw the graphical window, first grab the resolution of the screen
+root = tk.Tk()
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+print("Screen Width: " + str(screen_width))
+print("Screen Height: " + str(screen_height))
+
+# create the window
+window = tk.Tk()
+window.title("Elliptical Curve Digital Signature Algorithm")
+window.geometry(str(screen_width) + "x" + str(screen_height))
+window.configure(background='black')
+
+# create the canvas
+canvas = tk.Canvas(window, width=screen_width, height=screen_height, bg="black")
+canvas.pack()
+
+# create the private key label
+private_key_label = tk.Label(window, text="Private Key: " + private_key, bg="black", fg="white")
+private_key_label.place(x=0, y=0)
+
+# create the public key label
+public_key_label = tk.Label(window, text="Public Key: " + public_key, bg="black", fg="white")
+public_key_label.place(x=0, y=50)
+
+# create the elliptical curve label
+elliptical_curve_label = tk.Label(window, text="Elliptical Curve: y^2 = x^3 + ax + b", bg="black", fg="white")
+elliptical_curve_label.place(x=0, y=100)
+
+# create the private key qr code
+private_key_qr_code = qrcode.make(private_key)
+
+# create the public key qr code
+public_key_qr_code = qrcode.make(public_key)
+
+# create the elliptical curve qr code
+elliptical_curve_qr_code = qrcode.make("y^2 = x^3 + ax + b")
+
+# draw the canvas to the screen in fullscreen mode
+canvas.pack(fill=tk.BOTH, expand=1)
