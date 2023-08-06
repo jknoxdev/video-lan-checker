@@ -1,4 +1,8 @@
 * projects
+** ecd
+*** updates: 
+ - august 6 - project init, skeleton working
+    [[../img/ecd-skeleton.png]]
 ** mpo_lux
  - [[./mpolux.org]]
    [[./img/mpolux_init.png]]
