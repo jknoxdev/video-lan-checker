@@ -70,37 +70,51 @@ elliptical_curve_label.place(x=0, y=100)
 
 # save the private key as a keyfile
 
+# load keys from keyfile
 
-# check for existing keys folder
+# folder doesn't exist, create or load file
 if not os.path.exists("keys"):
     os.makedirs("keys")
-    print("keys folder created...")  
-    else:
-        print("keys folder found... moving on to check for existing key file...")
-        if not os.path.exists("keys/edsa_private_key.key"):
-            print("edsa_private_key.key file not found... creating file...")
-            f = open("keys/edsa_private_key.key", "w")
-            f.write(private_key)
-            f.close()
-            print("edsa_private_key.key file created...")    
-            else:
-                print("edsa_private_key.key file found... moving on to load keyfile...")
-                f = open("keys/edsa_private_key.key", "r")
-                private_key = f.read()
-                f.close()
-                print("edsa_private_key.key file loaded...")
-                print("Private Key: " + private_key)
-                print("Public Key: " + public_key)
-                print("Elliptical Curve: y^2 = x^3 + ax + b")
-            
+    print("keys folder created...")
+else:
+    print("keys folder found... moving on to check for existing key file...")
+    
+if not os.path.exists("keys/edsa_private_key.key"):
+    print("edsa_private_key.key file not found... creating file...")
+    f = open("keys/edsa_private_key.key", "w")
+    f.write(private_key)
+    f.close()
+    print("edsa_private_key.key file created...")    
+else:
+    print("edsa_private_key.key file found... moving on to load keyfile...")
+    f = open("keys/edsa_private_key.key", "r")
+    private_key = f.read()
+    f.close()
+    print("edsa_private_key.key file loaded...")
+    print("Private Key: " + private_key)
+    print("Public Key: " + public_key)
+    print("Elliptical Curve: y^2 = x^3 + ax + b")
+    #folder exists, create or load file
+if not os.path.exists("keys/edsa_private_key.key"):
+    print("edsa_private_key.key file not found... creating file...")
+    f = open("keys/edsa_private_key.key", "w")
+    f.write(private_key)
+    f.close()
+    print("edsa_private_key.key file created...")
+else:
+    print("edsa_private_key.key file found... moving on to load keyfile...")
+    f = open("keys/edsa_private_key.key", "r")
+    private_key = f.read()
+    f.close()
+    print("edsa_private_key.key file loaded...")
+    print("Private Key: " + private_key)
+    print("Public Key: " + public_key)
+    print("Elliptical Curve: y^2 = x^3 + ax + b")
         
 
-        
-
-f = open("edsa_private_key.key", "w")
-f.write(private_key)
-f.close()
-
+print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
+print (" loading complete... ")
+print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
 
 # print to console private key saved to file
 print("Private Key Saved to File" + "\n" + "Filename: edsa_private_key.key")
