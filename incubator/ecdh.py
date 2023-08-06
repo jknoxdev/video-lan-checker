@@ -16,6 +16,8 @@ import ecdsa
 import os
 import qrcode
 import tkinter as tk
+from tkinter import *
+
 import tkinter.ttk as ttk
 import tkinter.font as tkFont
 
@@ -23,10 +25,7 @@ import math
 import random
 import time
 import sys
-import os
-import qrcode
-
-import sha3, random binascii
+import binascii
 
 # generate a random private key
 
@@ -34,7 +33,8 @@ private_key = os.urandom(32).hex().upper()
 print("Private Key: " + private_key)
 
 # generate a public key from the private key
-public_key = ecdsa.SigningKey.from_string(private_key, curve=ecdsa.SECP256k1).verifying_key
+public_key = ecdsa.SigningKey.from_string(bytes.fromhex(private_key), curve=ecdsa.SECP256k1).verifying_key.to_string().hex().upper()
+
 
 print("Public Key: " + public_key)
 
@@ -70,6 +70,19 @@ elliptical_curve_label.place(x=0, y=100)
 # create the private key qr code
 private_key_qr_code = qrcode.make(private_key)
 
+# save the private key as a keyfile
+f = open("edsa_private_key.key", "w")
+f.write(private_key)
+f.close()
+
+
+# print to console private key saved to file
+print("Private Key Saved to File" + "\n" + "Filename: edsa_private_key.key")
+
+
+# print to the console that the qrcode has been saved as with the filename
+print("Private Key QR Code Saved to File")
+
 # create the public key qr code
 public_key_qr_code = qrcode.make(public_key)
 
@@ -78,3 +91,22 @@ elliptical_curve_qr_code = qrcode.make("y^2 = x^3 + ax + b")
 
 # draw the canvas to the screen in fullscreen mode
 canvas.pack(fill=tk.BOTH, expand=1)
+
+# open the image files
+private_key_qr_code = tk.PhotoImage(file="private_key_qr_code.png")
+
+
+
+# convert the image files to a label
+# private_key_qr_code_label = tk.Label(window, image=private_key_qr_code)
+
+# draw the label to the screen
+# private_key_qr_code_label.place(x=0, y=150)
+
+
+
+
+
+# draw the window to the screen
+window.mainloop()
+
