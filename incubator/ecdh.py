@@ -1,194 +1,60 @@
-# here is an example script to show the output of what the elliptical curve looks like when generating a key pair of private and public keys
-# generate a random private key
-# generate a public key from the private key
-# display the private key in a graphical window on the top left corner in a two-dimensional cartesian plane
-# display the public key in a graphical window slightly below the private key in a two-dimensional cartesian plane
-# display the elliptical curve in a graphical window in a two-dimensional cartesian plane with the private key and public key on the curve in the same column to show the relationship between the two keys
-# in the center of the screen show a column of the numerical values of the private key, public key, and elliptical curve with a dot on the curve which moves with the mouse to show the value at x and y coordinates, 
-# and the value of the private key and public key at the same x coordinate
-# the elliptical curve is defined by the equation y^2 = x^3 + ax + b, this will also be shown in the second column of the screen
-# in the third column of the screen, show a qr code of the private key, public key, and elliptical curve, each in their own qr code and row within the column
-# in the fourth column of the screen, show the private key, public key, and elliptical curve in a text format
-# on the bottom of the screen show social icon buttons for justin knox, github, twitter, facebook, linkedin, youtube, and instagram
-
-# import the necessary libraries
 import ecdsa
 import os
 import qrcode
 import tkinter as tk
-from tkinter import *
+from PIL import Image
+import matplotlib.pyplot as plt
 
-import tkinter.ttk as ttk
-import tkinter.font as tkFont
+class ECDSApp:
+    def __init__(self, window):
+        self.window = window
 
-import math
-import random
-import time
-import sys
-import binascii
+        self.load_images()
+        self.create_labels()
 
-# ---------------------------------
-# load keys from keyfile
-# ---------------------------------
-# folder doesn't exist, create or load file
-print("loading keys...")
-if not os.path.exists("keys"):
-    os.makedirs("keys")
-    print("no keyfolder found... keys folder created...")
-else:
-    print("keys folder found... moving on to check for existing key file...")
-    
-if not os.path.exists("keys/edsa_private_key.key"):
-    print("edsa_private_key.key file not found... creating file...")
-    # generate new keypair and write to file
-    private_key = os.urandom(32).hex().upper()
-    public_key = ecdsa.SigningKey.from_string(bytes.fromhex(private_key), curve=ecdsa.SECP256k1).verifying_key.to_string().hex().upper()
-    print("Private Key: " + private_key)
-    print("Public Key: " + public_key)
+    def load_images(self):
+        self.private_key_qr_image = Image.open("keys/private_key_qr_code.png")
+        self.public_key_qr_image = Image.open("keys/public_key_qr_code.png")
+        self.elliptical_curve_qr_image = Image.open("keys/elliptical_curve_qr_code.png")
 
-    f = open("keys/edsa_private_key.key", "w")
-    f.write(private_key)
-    f.close()
-    
-    f = open("keys/edsa_public_key.key", "w")
-    f.write(public_key)
-    f.close()
+    def create_labels(self):
+        private_key_qr_label = tk.Label(self.window, text="Private Key QR Code", bg="black", fg="white")
+        private_key_qr_label.place(x=0, y=200)
 
-    print("edsa_private_key.key file created...")    
-    print("edsa_public_key.key file created...")
-# folder exists, create or load keyfiles
-# TODO: create logic one keyfile is missing, right now just deletet the directories and files and run the script again
-else:
-    print("edsa_private_key.key file found... moving on to load keyfile...")
-    f = open("keys/edsa_private_key.key", "r")
-    private_key = f.read()
-    f.close()
-    f = open("keys/edsa_public_key.key", "r")
-    public_key = f.read()
-    f.close()
-    print("edsa_private_key.key file loaded...")
-    print("edsa_public_key.key file loaded...")
-    print("Private Key: " + private_key)
-    print("Public Key: " + public_key)
-    print("Elliptical Curve: y^2 = x^3 + ax + b")
-    
-#folder exists, create or load file
-if not os.path.exists("keys/edsa_private_key.key"):
-    print("edsa_private_key.key file not found... creating file...")
-    # generate new keypair and write to file
-    private_key = os.urandom(32).hex().upper()
-    public_key = ecdsa.SigningKey.from_string(bytes.fromhex(private_key), curve=ecdsa.SECP256k1).verifying_key.to_string().hex().upper()
-    print("Private Key: " + private_key)
-    print("Public Key: " + public_key)
-    f = open("keys/edsa_private_key.key", "w")
-    f.write(private_key)
-    f.close()
-    f = open("keys/edsa_public_key.key", "w")
-    f.write(public_key)
-    f.close()
+        public_key_qr_label = tk.Label(self.window, text="Public Key QR Code", bg="black", fg="white")
+        public_key_qr_label.place(x=0, y=400)
 
-    print("edsa_private_key.key file created...")
-    print("edsa_public_key.key file created...")
-    print("Private Key: " + private_key)
-    print("Public Key: " + public_key)
-    print("Elliptical Curve: y^2 = x^3 + ax + b")
-else:
-    print("edsa_private_key.key file found... moving on to load keyfile...")
-    f = open("keys/edsa_private_key.key", "r")
-    private_key = f.read()
-    f.close()
-    f = open("keys/edsa_public_key.key", "r")
-    public_key = f.read()
-    f.close()
-    print("edsa_private_key.key file loaded...")
-    print("Private Key: " + private_key)
-    print("Public Key: " + public_key)
-    print("Elliptical Curve: y^2 = x^3 + ax + b")
-        
+        elliptical_curve_qr_label = tk.Label(self.window, text="Elliptical Curve QR Code", bg="black", fg="white")
+        elliptical_curve_qr_label.place(x=0, y=600)
 
-print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
-print (" loading complete... ")
-print ("---------------------=-=-=-=---------------------------------=-=-=-----------------------")
+def main():
+    root = tk.Tk()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
 
-print("Drawing the gui...")
-# draw the graphical window, first grab the resolution of the screen
-root = tk.Tk()
-screen_width = root.winfo_screenwidth()
-screen_height = root.winfo_screenheight()
-print("Screen Width: " + str(screen_width))
-print("Screen Height: " + str(screen_height))
+    window = tk.Tk()
+    window.title("Elliptical Curve Digital Signature Algorithm")
+    window.geometry(str(screen_width-100) + "x" + str(screen_height-100))
+    window.configure(background='black')
 
-# create the window
-window = tk.Tk()
-window.title("Elliptical Curve Digital Signature Algorithm")
-window.geometry(str(screen_width-50) + "x" + str(screen_height-50))
-window.configure(background='black')
+    app = ECDSApp(window)
 
-# create the canvas
-canvas = tk.Canvas(window, width=screen_width, height=screen_height, bg="black")
-canvas.pack()
+    plt.figure(figsize=(3, 3))
+    plt.imshow(app.private_key_qr_image)
+    plt.axis('off')
+    plt.show()
 
-# create the private key label
-private_key_label = tk.Label(window, text="Private Key: " + private_key, bg="black", fg="white")
-private_key_label.place(x=0, y=0)
+    plt.figure(figsize=(3, 3))
+    plt.imshow(app.public_key_qr_image)
+    plt.axis('off')
+    plt.show()
 
-# create the public key label
-public_key_label = tk.Label(window, text="Public Key: " + public_key, bg="black", fg="white")
-public_key_label.place(x=0, y=50)
+    plt.figure(figsize=(3, 3))
+    plt.imshow(app.elliptical_curve_qr_image)
+    plt.axis('off')
+    plt.show()
 
-# create the elliptical curve label
-elliptical_curve_label = tk.Label(window, text="Elliptical Curve: y^2 = x^3 + ax + b", bg="black", fg="white")
-elliptical_curve_label.place(x=0, y=100)
+    window.mainloop()
 
-
-
-
-# create the qr codes and write to file
-private_key_qr_code = qrcode.make(private_key)
-print("created private key qr code...")
-f = open("keys/private_key_qr_code.png", "wb")
-private_key_qr_code.save(f)
-f.close()
-public_key_qr_code = qrcode.make(public_key)
-print("created public key qr code...")
-f = open("keys/public_key_qr_code.png", "wb")
-public_key_qr_code.save(f)
-f.close()
-elliptical_curve_qr_code = qrcode.make("y^2 = x^3 + ax + b")
-print("created elliptical curve qr code...")
-f = open("keys/elliptical_curve_qr_code.png", "wb")
-elliptical_curve_qr_code.save(f)
-f.close()
-
-
-
-# create the public key qr code
-public_key_qr_code = qrcode.make(public_key)
-print("created public key qr code...")
-
-
-# create the elliptical curve qr code
-elliptical_curve_qr_code = qrcode.make("y^2 = x^3 + ax + b")
-print("created elliptical curve qr code...")
-
-# draw the canvas to the screen in fullscreen mode
-# canvas.pack(fill=tk.BOTH, expand=1)
-
-# open the image files
-# private_key_qr_code = tk.PhotoImage(file="private_key_qr_code.png")
-
-
-
-# convert the image files to a label
-# private_key_qr_code_label = tk.Label(window, image=private_key_qr_code)
-
-# draw the label to the screen
-# private_key_qr_code_label.place(x=0, y=150)
-
-
-
-
-
-# draw the window to the screen
-window.mainloop()
-
+if __name__ == "__main__":
+    main()
