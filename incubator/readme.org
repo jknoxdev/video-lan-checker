@@ -3,6 +3,9 @@
 *** updates: 
  - august 6 - project init, skeleton working
     [[../img/ecd-skeleton.png]]
+    #+begin_src python :results output none :file=ecdh_setup.py
+    pip3 install ecdsa pandas base58 pyqrcode 
+    #+end_src
 ** mpo_lux
  - [[./mpolux.org]]
    [[./img/mpolux_init.png]]
