@@ -67,10 +67,36 @@ public_key_label.place(x=0, y=50)
 elliptical_curve_label = tk.Label(window, text="Elliptical Curve: y^2 = x^3 + ax + b", bg="black", fg="white")
 elliptical_curve_label.place(x=0, y=100)
 
-# create the private key qr code
-private_key_qr_code = qrcode.make(private_key)
 
 # save the private key as a keyfile
+
+
+# check for existing keys folder
+if not os.path.exists("keys"):
+    os.makedirs("keys")
+    print("keys folder created...")  
+    else:
+        print("keys folder found... moving on to check for existing key file...")
+        if not os.path.exists("keys/edsa_private_key.key"):
+            print("edsa_private_key.key file not found... creating file...")
+            f = open("keys/edsa_private_key.key", "w")
+            f.write(private_key)
+            f.close()
+            print("edsa_private_key.key file created...")    
+            else:
+                print("edsa_private_key.key file found... moving on to load keyfile...")
+                f = open("keys/edsa_private_key.key", "r")
+                private_key = f.read()
+                f.close()
+                print("edsa_private_key.key file loaded...")
+                print("Private Key: " + private_key)
+                print("Public Key: " + public_key)
+                print("Elliptical Curve: y^2 = x^3 + ax + b")
+            
+        
+
+        
+
 f = open("edsa_private_key.key", "w")
 f.write(private_key)
 f.close()
