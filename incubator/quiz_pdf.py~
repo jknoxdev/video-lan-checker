@@ -1,0 +1,35 @@
+import os
+import PyPDF4
+
+def find_questions_in_directory(directory):
+    pdf_files = [file for file in os.listdir(directory) if file.lower().endswith('.pdf')]
+    question_files = []
+
+    for pdf_file in pdf_files:
+        pdf_path = os.path.join(directory, pdf_file)
+        with open(pdf_path, 'rb') as pdf_file:
+            pdf_reader = PyPDF4.PdfReader(pdf_file)
+            for page_num in range(len(pdf_reader.pages)):
+                text = pdf_reader.pages[page_num].extract_text()
+                if "QUESTION:" in text:
+                    question_files.append(pdf_file.name)
+                    break
+
+    return question_files
+
+def main():
+    data_directory = os.path.expanduser("~/data/src/parse/")
+    
+    print("Checking PDFs for questions labeled as 'QUESTION:'")
+    
+    question_files = find_questions_in_directory(data_directory)
+    
+    if question_files:
+        print("Question files found:")
+        for file in question_files:
+            print(file)
+    else:
+        print("No question files found.")
+
+if __name__ == "__main__":
+    main()
