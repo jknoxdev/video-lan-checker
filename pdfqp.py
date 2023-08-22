@@ -21,23 +21,21 @@ class PDFQuestionParser:
             for page_num in range(num_pages):
                 page = pdf_reader.getPage(page_num)
                 text = page.extractText()
-
                 lines = text.split('\n')
                 for line in lines:
                     if line.startswith("QUESTION:"):
                         if current_question:
                             self.qa_data.append((current_question, current_answers))
-                        current_question = line[10:].strip()
-                        current_answers = {}
-                    elif current_question and line.startswith("Answer:"):
-                        current_answer_prefix = line[7:8]
-                        current_answer = line[9:].strip()
-                        current_answers[current_answer_prefix] = current_answer
-                    elif current_answer_prefix and line.startswith(current_answer_prefix):
-                        current_answer += " " + line.strip()
-
-            if current_question:
-                self.qa_data.append((current_question, current_answers))
+                            current_question = line[10:].strip()
+                            current_answers = {}
+                        elif current_question and line.startswith("Answer:"):
+                            current_answer_prefix = line[7:8]
+                            current_answer = line[9:].strip()
+                            current_answers[current_answer_prefix] = current_answer
+                        elif current_answer_prefix and line.startswith(current_answer_prefix):
+                            current_answer += " " + line.strip()
+                        if current_question:
+                            self.qa_data.append((current_question, current_answers))
 
     def create_database(self):
         conn = sqlite3.connect(self.database_name)

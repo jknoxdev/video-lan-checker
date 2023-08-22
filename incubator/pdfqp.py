@@ -133,6 +133,7 @@ class PDFQuestionParser:
                 break
             else:
                 print("Invalid choice. Please choose again.")
+                
 # -------------------------------------------------------------------
 #  main
 # -------------------------------------------------------------------
