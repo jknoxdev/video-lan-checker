@@ -9,19 +9,17 @@ class PDFQuestionParser:
         self.database_name = database_name
         self.qa_data = []
 
-        def extract_qa_from_pdf(self):
-            with open(self.pdf_path, "rb") as pdf_file:
-                pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-                num_pages = pdf_reader.numPages
-
+    def extract_qa_from_pdf(self):
+        with open(self.pdf_path, "rb") as pdf_file:
+            pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+            num_pages = pdf_reader.numPages
             current_question = ""
             current_answers = {}
             current_answer_prefix = ""
-
+            
             for page_num in range(num_pages):
                 page = pdf_reader.getPage(page_num)
                 text = page.extractText()
-
                 lines = text.split('\n')
                 for line in lines:
                     if line.startswith("QUESTION:"):
@@ -29,72 +27,72 @@ class PDFQuestionParser:
                             self.qa_data.append((current_question, current_answers))
                             current_question = line[10:].strip()
                             current_answers = {}
-                    elif current_question and line.startswith("Answer:"):
-                        current_answer_prefix = line[7:8]
-                        current_answer = line[9:].strip()
-                        current_answers[current_answer_prefix] = current_answer
-                    elif current_answer_prefix and line.startswith(current_answer_prefix):
-                        current_answer += " " + line.strip()
-
-            if current_question:
-                self.qa_data.append((current_question, current_answers))
-
+                        elif current_question and line.startswith("Answer:"):
+                            current_answer_prefix = line[7:8]
+                            current_answer = line[9:].strip()
+                            current_answers[current_answer_prefix] = current_answer
+                        elif current_answer_prefix and line.startswith(current_answer_prefix):
+                            current_answer += " " + line.strip()
+                            
+                    if current_question:
+                        self.qa_data.append((current_question, current_answers))
+                    
     def create_database(self):
         conn = sqlite3.connect(self.database_name)
         cursor = conn.cursor()
-
+        
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS questions (
-            id INTEGER PRIMARY KEY,
-            question TEXT,
-            answer_a TEXT,
-            answer_b TEXT,
-            answer_c TEXT,
-            answer_d TEXT
+        id INTEGER PRIMARY KEY,
+        question TEXT,
+        answer_a TEXT,
+        answer_b TEXT,
+        answer_c TEXT,
+        answer_d TEXT
         )
         """)
-
+        
         conn.commit()
         conn.close()
-
+                                        
     def insert_qa_into_database(self):
         conn = sqlite3.connect(self.database_name)
         cursor = conn.cursor()
-
+                                            
         for question, answers in self.qa_data:
             cursor.execute(
                 "INSERT INTO questions (question, answer_a, answer_b, answer_c, answer_d) VALUES (?, ?, ?, ?, ?)",
                 (question, answers.get("a", ""), answers.get("b", ""), answers.get("c", ""), answers.get("d", ""))
             )
-
-        conn.commit()
-        conn.close()
-
+            
+            conn.commit()
+            conn.close()
+                                                
     def export_database_to_csv(self, csv_file_path):
         conn = sqlite3.connect(self.database_name)
         cursor = conn.cursor()
-
+        
         cursor.execute("SELECT * FROM questions")
         rows = cursor.fetchall()
-
+        
         conn.close()
-
+        
         with open(csv_file_path, "w", newline="") as csv_file:
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(["ID", "Question", "Answer A", "Answer B", "Answer C", "Answer D"])
-
+            
             for row in rows:
                 csv_writer.writerow(row)
-
+        
     def display_qa(self):
         conn = sqlite3.connect(self.database_name)
         cursor = conn.cursor()
-
+        
         cursor.execute("SELECT * FROM questions")
         rows = cursor.fetchall()
-
+        
         conn.close()
-
+        
         for row in rows:
             _, question, answer_a, answer_b, answer_c, answer_d = row
             print("Question:", question)
@@ -135,7 +133,9 @@ class PDFQuestionParser:
                 break
             else:
                 print("Invalid choice. Please choose again.")
-
+# -------------------------------------------------------------------
+#  main
+# -------------------------------------------------------------------
 def main():
     print("PDF Parsing and Scanning Application")
 
